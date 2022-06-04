@@ -19,7 +19,7 @@ export default function CategoryItem({ data, favorite }) {
     >
       <Image 
         style={styles.icon}
-        source={{ uri: `http://192.168.15.9:1337${data?.attributes?.icon?.data?.attributes?.url}` }}
+        source={{ uri: `http://192.168.1.4:1337${data?.attributes?.icon?.data?.attributes?.url}` }}
       />
       <Text style={styles.name}>{data?.attributes?.name}</Text>
     </TouchableOpacity>

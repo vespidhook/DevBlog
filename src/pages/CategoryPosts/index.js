@@ -1,12 +1,10 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function CategoryPosts() {
   return (
     <View style={styles.container}>
-      <Text>CategoryPosts</Text>
-      <StatusBar style="auto" />
+      <Text>CategoryPosts1</Text>
     </View>
   );
 }
