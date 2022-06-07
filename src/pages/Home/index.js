@@ -10,11 +10,16 @@ import  FavoritePost  from '../../components/FavoritePost';
 import  PostItem  from '../../components/PostItem';
 import { getFavorites, setFavorite } from '../../services/favorite';
 
+import * as Animatable from 'react-native-animatable';
+
+const FlatListAnimated = Animatable.createAnimatableComponent(FlatList);
+
 export default function Home() {
   const navigation = useNavigation();
   const [categories, setCategories] = useState([]);
   const [favCategory, setFavCategory] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -37,8 +42,10 @@ export default function Home() {
   }, [])
 
     async function getListPosts() {
+      setLoading(true);
       const response = await api.get('api/posts?populate=cover&sort=createdAt:desc');
       setPosts(response.data.data);
+      setLoading(false);
     }
 
   async function handleFavorite(id) {
@@ -52,14 +59,21 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       
       <View style={styles.header}>
-        <Text style={styles.name}>DevBlog</Text>
+        <Animatable.Text 
+          style={styles.name}
+          animation="fadeInDown"
+          >
+            DevBlog
+          </Animatable.Text>
 
         <TouchableOpacity onPress={() => navigation.navigate("Search")}>
           <Feather name="search" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      <FlatList
+      <FlatListAnimated
+        animation={'flipInX'}
+        delay={500}
         horizontal={true}
         contentContainerStyle={{paddingRight: 12}}
         style={styles.categories}
@@ -101,6 +115,8 @@ export default function Home() {
           data={posts}
           keyExtractor={ (item) => String(item.id)}
           renderItem={ ({item}) => <PostItem data={item} />}
+          refreshing={loading}
+          onRefresh={ () => getListPosts() }
         />
 
       </View>
